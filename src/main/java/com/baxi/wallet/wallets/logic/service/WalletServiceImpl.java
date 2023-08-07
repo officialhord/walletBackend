@@ -2,6 +2,7 @@ package com.baxi.wallet.wallets.logic.service;
 
 import com.baxi.wallet.useraccess.data.WalletUserRepo;
 import com.baxi.wallet.useraccess.model.WalletUser;
+import com.baxi.wallet.utility.WalletUtil;
 import com.baxi.wallet.wallets.logic.data.WalletRepository;
 import com.baxi.wallet.wallets.logic.data.WalletTransactionRepository;
 import com.baxi.wallet.wallets.model.WalletTransaction;
@@ -29,38 +30,44 @@ public class WalletServiceImpl implements WalletService {
     WalletTransactionRepository walletTransactionRepository;
 
     @Autowired
+    WalletUtil utility;
+    @Autowired
     WalletUserRepo userRepo;
 
     @Override
-    public WalletResponse handleGenerateWalletRequest(long userId) {
+    public WalletResponse handleGenerateWalletRequest(long userId, String auth) {
 
         WalletResponse walletResponse = new WalletResponse();
-        Optional<WalletUser> optUser = userRepo.findById(userId);
 
-        walletResponse.setUserId(userId);
-        if (optUser.isPresent()) {
+        if (utility.authenticate(auth)) {
+            Optional<WalletUser> optUser = userRepo.findById(userId);
 
-            Optional<Wallets> optWallet = walletRepository.findByUserId(userId);
-            Wallets wallet = null;
-            walletResponse.setExists(true);
+            walletResponse.setUserId(userId);
+            if (optUser.isPresent()) {
 
-            if (optWallet.isPresent()) {
-                wallet = optWallet.get();
+                Optional<Wallets> optWallet = walletRepository.findByUserId(userId);
+                Wallets wallet = null;
+                walletResponse.setExists(true);
+
+                if (optWallet.isPresent()) {
+                    wallet = optWallet.get();
+
+                } else {
+                    wallet = new Wallets();
+                    wallet.setAppUser(optUser.get());
+                    wallet = walletRepository.save(wallet);
+                }
+
+                walletResponse.setWalletBalance(wallet.getWalletBalance());
+                walletResponse.setLienBalance(wallet.getLienBalance());
+                walletResponse.setAccountNumber(wallet.getAccountNumber());
 
             } else {
-                wallet = new Wallets();
-                wallet.setAppUser(optUser.get());
-                wallet = walletRepository.save(wallet);
+                walletResponse.setMessage("User not found");
             }
-
-            walletResponse.setWalletBalance(wallet.getWalletBalance());
-            walletResponse.setLienBalance(wallet.getLienBalance());
-            walletResponse.setAccountNumber(wallet.getAccountNumber());
-
         } else {
-            walletResponse.setMessage("User not found");
+            walletResponse.setMessage("Auntorization Failed");
         }
-
         return walletResponse;
 
     }
