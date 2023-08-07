@@ -38,7 +38,7 @@ public class WalletController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fetchBalance")
-    public BigDecimal handleFetchBalance(@RequestBody long userId, @RequestHeader("Authorization") String auth) {
+    public BigDecimal handleFetchBalance(@PathVariable long userId, @RequestHeader("Authorization") String auth) {
         return walletService.handleFetchWalletBalanceRequest(userId, auth);
 
     }
