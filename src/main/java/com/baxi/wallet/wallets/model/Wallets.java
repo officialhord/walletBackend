@@ -32,4 +32,6 @@ public class Wallets {
 
     private String transactionPin;
 
+    private String accountNumber;
+
 }

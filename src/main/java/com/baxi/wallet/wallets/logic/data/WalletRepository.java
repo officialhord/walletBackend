@@ -10,4 +10,7 @@ public interface WalletRepository extends JpaRepository<Wallets, Long> {
 
     @Query(nativeQuery = true, value = "select * from wallets where app_user_id = ?1")
     Optional<Wallets> findByUserId(long userId);
+
+    @Query(nativeQuery = true, value = "select * from wallets where account_number = ?1")
+    Optional<Wallets> findByAccountNumber(String accountNumber);
 }
