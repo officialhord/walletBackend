@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -35,4 +36,7 @@ public class WalletResponse {
 
     @JsonProperty("message")
     private String message;
+
+    @JsonProperty("transactions")
+    private List<WalletTransactions> walletTransactions;
 }
