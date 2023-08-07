@@ -40,7 +40,7 @@ public class WalletUserService implements UserDetailsService {
     WalletUtil walletUtil;
 
 
-    public UserRegistrationResponse registerUser(ToryUserRegistrationDTO request) {
+    public UserRegistrationResponse registerUser(UserRegistrationDTO request) {
 
         WalletUser walletUser = new WalletUser();
         UserRegistrationResponse response = new UserRegistrationResponse();
@@ -90,7 +90,7 @@ public class WalletUserService implements UserDetailsService {
         return response;
     }
 
-    public UserLoginResponse loginUser(ToryUserLoginDTO loginDTO) {
+    public UserLoginResponse loginUser(LoginRequest loginDTO) {
 
         UserLoginResponse response = new UserLoginResponse();
         System.out.println("Within login user");

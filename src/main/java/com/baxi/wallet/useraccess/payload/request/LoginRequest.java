@@ -9,7 +9,7 @@ import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ToryUserLoginDTO {
+public class LoginRequest {
     @JsonProperty("username")
     private String username;
 

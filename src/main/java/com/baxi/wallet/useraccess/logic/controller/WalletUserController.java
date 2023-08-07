@@ -2,7 +2,11 @@ package com.baxi.wallet.useraccess.logic.controller;
 
 import com.baxi.wallet.useraccess.logic.service.WalletUserService;
 import com.baxi.wallet.useraccess.payload.request.ResetPasswordRequest;
+import com.baxi.wallet.useraccess.payload.request.LoginRequest;
+import com.baxi.wallet.useraccess.payload.request.UserRegistrationDTO;
 import com.baxi.wallet.useraccess.payload.request.UserVerificationRequest;
+import com.baxi.wallet.useraccess.payload.response.UserLoginResponse;
+import com.baxi.wallet.useraccess.payload.response.UserRegistrationResponse;
 import com.baxi.wallet.useraccess.payload.response.UserVerificationResponse;
 import com.baxi.wallet.useraccess.token.ConfirmationTokenService;
 import org.slf4j.Logger;
@@ -27,6 +31,18 @@ public class WalletUserController {
         return confirmationTokenService.confirmToken(token);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/registerUser")
+    public UserRegistrationResponse verifyUser(@RequestBody UserRegistrationDTO request) {
+        logger.info("Registration request :::: " + request);
+        return userService.registerUser(request);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/loginUser")
+    public UserLoginResponse verifyUser(@RequestBody LoginRequest request) {
+        logger.info("Registration request :::: " + request);
+        return userService.loginUser(request);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/verifyUser")
     public UserVerificationResponse verifyUser(@RequestBody UserVerificationRequest request) {
         logger.info("Verifying request :::: " + request);
@@ -44,7 +60,6 @@ public class WalletUserController {
         logger.info("Logout :::: " + auth);
         return userService.logoutUser(auth);
     }
-
 
 
 }
