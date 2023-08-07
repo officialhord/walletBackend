@@ -43,7 +43,7 @@ public class WalletController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/fetchTransactions")
+    @RequestMapping(method = RequestMethod.GET, value = "/fetchTransactions")
     public WalletResponse handleFetchTransactions(@PathVariable long walletId,
                                                   @RequestHeader("Authorization") String auth) {
         return walletService.handleFetchTransactionsRequest(walletId, auth);
