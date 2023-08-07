@@ -150,25 +150,23 @@ public class WalletUtil {
     public void sendEmail(String emailAddress, String firstname, EmailTemplate emailTemplate, EmailSubject emailSubject, Map<String, String> content) {
 
         try {
-            InputStream resource = new ClassPathResource("email_templates/" + emailTemplate.name).getInputStream();
-            byte[] htmlBytes = IOUtils.toByteArray(resource);
-            String htmlContent = new String(htmlBytes, "UTF-8");
+
+            String emailContent = "You've got mail !!!\n\n";
 
             switch (emailTemplate.name()) {
                 case "VERIFICATION_MAIL":
-                    htmlContent = htmlContent.replace("{token}", content.get("token"));
-                    break;
-                case "CRYPTO_PURCHASE":
-                    htmlContent = htmlContent.replace("{customer_name}", content.get("customer_name"));
-                    htmlContent = htmlContent.replace("{total_amount}", content.get("total_amount"));
+                    emailContent = emailContent + "Hello " + firstname + ",\n\n Welcome to Baxi.\nKindly verify your email with the code below: \n" + content.get("token");
                     break;
 
                 default:
-                    htmlContent = htmlContent.replace("{name}", firstname);
+                    emailContent = emailContent + "Never mind.";
                     break;
             }
 
-            emailService.send(emailAddress, htmlContent, emailSubject.name);
+            emailContent = emailContent + "Cheers,\n Team Baxi";
+
+            System.out.println("Sending email :::: " + emailContent);
+            emailService.send(emailAddress, emailContent, emailSubject.name);
 
         } catch (Exception e) {
             System.out.println("Error occurred while sending email");

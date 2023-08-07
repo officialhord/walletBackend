@@ -1,6 +1,10 @@
 package com.baxi.wallet.useraccess.logic.controller;
 
 import com.baxi.wallet.useraccess.logic.service.WalletUserService;
+import com.baxi.wallet.useraccess.payload.request.ResetPasswordRequest;
+import com.baxi.wallet.useraccess.payload.request.UserVerificationRequest;
+import com.baxi.wallet.useraccess.payload.response.UserVerificationResponse;
+import com.baxi.wallet.useraccess.token.ConfirmationTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +21,6 @@ public class WalletUserController {
     private WalletUserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(WalletUserController.class);
-
 
     @GetMapping(path = "/register/confirm")
     public String confirm(@RequestParam("token") String token) {
@@ -36,29 +39,10 @@ public class WalletUserController {
         return userService.sendResetEmail(request.getEmail());
     }
 
-
-    @RequestMapping(method = RequestMethod.POST, value = "/resetPassword")
-    public ResetPasswordResponse resetUserPassword(@RequestBody PasswordResetRequest request) {
-        logger.info("User password reset :::: " + request);
-        return userService.updatePassword(request);
-    }
-
-//    @RequestMapping(method = RequestMethod.POST, value = "/updateUserProfile")
-//    public RequestResponse resetUserPassword(@RequestBody UpdateUserProfileRequest request) {
-//        logger.info("User password reset :::: " + request);
-//        return userService.updateUserProfile(request);
-//    }
-
     @RequestMapping(method = RequestMethod.GET, value = "/logout/{auth}")
     public String logoutUser(@PathVariable String auth) {
         logger.info("Logout :::: " + auth);
         return userService.logoutUser(auth);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/fetchUserProfile/{auth}")
-    public String fetchUserProfile(@PathVariable String auth) {
-        logger.info("fetching User profile :::: " + auth);
-        return userService.fetchUserProfile(auth);
     }
 
 

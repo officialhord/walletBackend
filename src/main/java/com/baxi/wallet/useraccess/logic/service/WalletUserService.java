@@ -6,7 +6,6 @@ import com.baxi.wallet.useraccess.data.WalletUserRepo;
 import com.baxi.wallet.useraccess.model.AppUserRole;
 import com.baxi.wallet.useraccess.model.WalletUser;
 import com.baxi.wallet.useraccess.payload.request.*;
-import com.baxi.wallet.useraccess.payload.response.ResetPasswordResponse;
 import com.baxi.wallet.useraccess.payload.response.UserLoginResponse;
 import com.baxi.wallet.useraccess.payload.response.UserRegistrationResponse;
 import com.baxi.wallet.useraccess.payload.response.UserVerificationResponse;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class WalletUserService implements UserDetailsService {
@@ -33,14 +31,13 @@ public class WalletUserService implements UserDetailsService {
     // All logic, computation, and pushing to DB should happen in here
     private final static String USER_NOT_FOUND_msg = "User with Email %s not found";
     @Autowired
-    private WalletUserRepo userRepo;
-
+    WalletUserRepo userRepo;
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
-    private EmailSender emailSender;
+    EmailSender emailSender;
     @Autowired
-    private WalletUtil walletUtil;
+    WalletUtil walletUtil;
 
 
     public UserRegistrationResponse registerUser(ToryUserRegistrationDTO request) {
@@ -66,7 +63,9 @@ public class WalletUserService implements UserDetailsService {
         walletUser.setEmailAddress(request.getEmail().toLowerCase());
         walletUser.setAppUserRole(AppUserRole.USER);
         walletUser.setEnabled(false);
-        walletUser.setCountry(request.getCountry());
+        walletUser.setFirstname(request.getFirstName());
+        walletUser.setLastName(request.getLastName());
+
         walletUser.setLocked(false);
 
         String encodedPass = bCryptPasswordEncoder.encode(request.getPassword());
@@ -124,9 +123,10 @@ public class WalletUserService implements UserDetailsService {
                     String authentication = walletUtil.generateAuthentication(username);
                     response.setAuthentication(authentication);
 
+
+
                 } else {
                     response.setStatus("05");
-
                     response.setUsername(walletUser.getUsername());
 
                     // Create confirmation token
@@ -222,7 +222,6 @@ public class WalletUserService implements UserDetailsService {
             String name = null;
 
             if (!ObjectUtils.isEmpty(token.getAppUser())) {
-
                 WalletUser user = token.getAppUser();
                 user.setEnabled(true);
                 userRepo.save(user);

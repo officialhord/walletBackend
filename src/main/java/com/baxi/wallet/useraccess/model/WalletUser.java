@@ -1,11 +1,12 @@
 package com.baxi.wallet.useraccess.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+
 import java.util.Collection;
 import java.util.Collections;
 
@@ -34,9 +35,6 @@ public class WalletUser implements UserDetails {
     private Boolean locked;
     private Boolean enabled;
     private AppUserRole appUserRole;
-
-    public WalletUser() {
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

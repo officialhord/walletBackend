@@ -25,8 +25,8 @@ public class EmailService implements EmailSender {
             props.put("mail.smtp.host", "smtp.titan.email");
             props.put("mail.smtp.ssl.enable", true);
             props.put("mail.smtp.port", "465");
-            String username = "comms@ticker.africa";
-            String password = "Alternate@123#";
+            String username = "comms@baxi.com";
+            String password = "fakePassword";
 
             Session session = Session.getInstance(props, new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {

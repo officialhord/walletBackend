@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class ToryUserRegistrationDTO {
 
-    private String password, email, country, phoneNumber;
+    private String password, email, firstName, lastName, bio;
 
 }
