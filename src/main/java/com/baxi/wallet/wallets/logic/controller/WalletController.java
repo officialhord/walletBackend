@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
 @RestController
 public class WalletController {
 
@@ -36,7 +38,7 @@ public class WalletController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/fetchBalance")
-    public WalletResponse handleFetchBalance(@RequestBody long userId, @RequestHeader("Authorization") String auth) {
+    public BigDecimal handleFetchBalance(@RequestBody long userId, @RequestHeader("Authorization") String auth) {
         return walletService.handleFetchWalletBalanceRequest(userId, auth);
 
     }
