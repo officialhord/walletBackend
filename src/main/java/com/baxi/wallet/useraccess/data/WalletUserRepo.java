@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface WalletUserRepo extends JpaRepository<WalletUser, String> {
     Optional<WalletUser> findByUsername(String username);
 
+    @Query(value = "Select * from wallet_user where id = ?1", nativeQuery = true)
+    Optional<WalletUser> findById(long email);
 
     @Query(value = "Select * from wallet_user where email_address = ?1", nativeQuery = true)
     Optional<WalletUser> findByEmailAddress(String email);

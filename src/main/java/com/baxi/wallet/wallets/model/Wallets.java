@@ -24,10 +24,12 @@ public class Wallets {
     )
     private WalletUser appUser;
 
+    @Column(columnDefinition = "numeric default 0")
     private BigDecimal walletBalance;
 
+    @Column(columnDefinition = "numeric default 0")
     private BigDecimal lienBalance;
 
-    private long transactionPin;
+    private String transactionPin;
 
 }
