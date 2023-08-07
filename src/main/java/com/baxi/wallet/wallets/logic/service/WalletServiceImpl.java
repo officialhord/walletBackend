@@ -73,7 +73,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public WalletResponse handleNameEnquiryRequest(String accountNumber) {
+    public WalletResponse handleNameEnquiryRequest(String accountNumber, String auth) {
         WalletResponse walletResponse = new WalletResponse();
 
         Optional<Wallets> optWallet = walletRepository.findByAccountNumber(accountNumber);
@@ -96,7 +96,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public WalletResponse handleFundsTransferRequest(FundsTransferRequest fundsTransferRequest) {
+    public WalletResponse handleFundsTransferRequest(FundsTransferRequest fundsTransferRequest, String auth) {
         WalletResponse walletResponse = new WalletResponse();
 
         Optional<Wallets> fromWallet = walletRepository.findByAccountNumber(fundsTransferRequest.getFromAccount());
@@ -172,7 +172,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public BigDecimal handleFetchWalletBalanceRequest(long userId) {
+    public BigDecimal handleFetchWalletBalanceRequest(long userId, String auth) {
         BigDecimal walletBalance = BigDecimal.ZERO;
 
         Optional<Wallets> optWallet = walletRepository.findByUserId(userId);
@@ -185,7 +185,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public WalletResponse handleFetchTransactionsRequest(long walletId) {
+    public WalletResponse handleFetchTransactionsRequest(long walletId, String auth) {
         WalletResponse walletResponse = new WalletResponse();
 
         List<WalletTransactions> walletTransactionsList = new ArrayList<>();
